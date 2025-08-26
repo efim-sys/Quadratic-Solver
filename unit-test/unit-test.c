@@ -7,6 +7,8 @@
 #include "test-arrays.h"
 
 void utestParseEquation(void) {
+	printf("Test ParseEquation()\n");
+	
 	for(unsigned int i = 0; i < (sizeof(unitTests) / sizeof(struct peqStruct)); i++) {
 		struct peqStruct e = unitTests[i];
 
@@ -24,6 +26,8 @@ void utestParseEquation(void) {
 }
 
 void utestSolveSq(void) {
+	printf("Test SolveSquare()\n");
+
 	for(unsigned int i = 0; i < (sizeof(test_cases) / sizeof(struct TestCase)); i++) {
 		struct TestCase e = test_cases[i];
 
@@ -40,11 +44,12 @@ void utestSolveSq(void) {
 		else {
 			if(showFine) printf("\033[92mFINE\033[39m\t[%s] Got: [n=%d x1=%+lg x2=%+lg]\n", e.equation, nRoots, x1, x2);
 		}
-
 	}
 }
 
 void utestParsePolynomial(void) {
+	printf("Test ParsePolynomial()\n");
+
 	for(unsigned int i = 0; i < (sizeof(unitTests2) / sizeof(struct peqStruct)); i++) {
 		struct peqStruct e = unitTests2[i];
 

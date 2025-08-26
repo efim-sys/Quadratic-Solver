@@ -2,6 +2,7 @@
 #include "stdlib.h"
 #include "assert.h"
 #include "../tools/tools.h"
+#include "../complex/complex.h"
 #include <math.h>
 
 enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
@@ -44,3 +45,4 @@ enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
 
     return nRoots;
 }
+
