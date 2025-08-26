@@ -3,3 +3,5 @@
 //! @param double b
 //! @returns bool equal
 bool dEqual(double a, double b);
+
+
