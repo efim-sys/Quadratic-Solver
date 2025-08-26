@@ -46,3 +46,26 @@ enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
     return nRoots;
 }
 
+
+enum SolveResult solveComplex(double a, double b, double c, Complex* r1, Complex* r2) {
+    if(dEqual(a, 0)) {                                      // Если уравнение не является квадратным
+        if(dEqual(b, 0)) {                                  // Если уравнение задает прямую
+            return dEqual(c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
+        }
+        r1->r = -c / b;                                     // Решение линейного уравнения
+        return ONE_ROOT;
+    }
+
+    double D = b*b - 4*a*c;
+    Complex sqD = sqrtComplex(D);
+
+    *r1 = divComplex(addReal(sqD, -b), 2*a);
+    *r2 = divComplex(addReal(mulComplex(sqD, -1), -b), 2*a);
+    
+    if(dEqual(D, 0)) return ONE_ROOT;
+    if(D > 0) return TWO_ROOTS;
+
+    return COMPL_ROOTS;
+    
+}
+

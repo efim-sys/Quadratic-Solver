@@ -7,8 +7,8 @@ source_files = quad.c unit-test/unit-test.c tools/tools.c solver/solver.c parser
 
 all: link run	
 
-link: unit-test.o parser.o solver.o tools.o quad.o
-	$(CC) $(CFLAGS) build/quad.o build/unit-test.o build/parser.o build/solver.o build/tools.o -o build/a.out
+link: unit-test.o parser.o solver.o tools.o quad.o complex.o
+	$(CC) $(CFLAGS) build/quad.o build/unit-test.o build/parser.o build/solver.o build/tools.o build/complex.o -o build/a.out
 
 quad.o: 
 	$(CC) $(CFLAGS) quad.c -c -o build/quad.o
@@ -24,6 +24,9 @@ parser.o:
 
 tools.o: 
 	$(CC) $(CFLAGS) tools/tools.c -c -o build/tools.o
+
+complex.o: 
+	$(CC) $(CFLAGS) complex/complex.c -c -o build/complex.o
 
 run:
 	echo "\033[102m-------------------------LAUNCHING-------------------------\033[49m"
