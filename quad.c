@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <unistd.h>
+
 #include "parser/parser.h"
 #include "complex/complex.h"
 #include "solver/solver.h"

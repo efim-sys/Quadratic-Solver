@@ -8,6 +8,10 @@
         "solver.h": "c",
         "stdbool.h": "c",
         "tools.h": "c",
-        "complex": "cpp"
+        "complex": "cpp",
+        "unistd.h": "c",
+        "features.h": "c",
+        "posix_opt.h": "c",
+        "unistd_ext.h": "c"
     }
 }
