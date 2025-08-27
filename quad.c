@@ -19,7 +19,6 @@ const int ARR_LEN = 128;
 
 void outputResult(enum SolveResult nRoots, double x1, double x2);
 void outputResultComplex(enum SolveResult nRoots, Complex r1, Complex r2);
-void setFlag(const char* str);
 
 
 const int nFlags = 4;
@@ -32,16 +31,7 @@ enum FLAGS {
 };
 
 bool getFlag(enum FLAGS);
-
-unsigned int flags = 0;
-
-const char *flags_str[nFlags] = {
-    "--help",
-    "--test",
-    "--coef",
-    "--compl"
-};
-
+void setFlag(const char* str);
 
 
 int main(int argc, const char* argv[]) {
@@ -118,6 +108,15 @@ void outputResult(enum SolveResult nRoots, double x1, double x2) {
             break;
     }
 }
+
+unsigned int flags = 0;
+
+const char *flags_str[nFlags] = {
+    "--help",
+    "--test",
+    "--coef",
+    "--compl"
+};
 
 void setFlag(const char* str) {
     for(int i = 0; i < nFlags; i++) {
