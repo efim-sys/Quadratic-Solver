@@ -12,6 +12,7 @@
         "unistd.h": "c",
         "features.h": "c",
         "posix_opt.h": "c",
-        "unistd_ext.h": "c"
+        "unistd_ext.h": "c",
+        "assert.h": "c"
     }
 }
