@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +24,7 @@ void parseEquation(const char str[], double *a, double *b, double *c);
 //! @param double *c
 //! @param int sign +1 or -1
 void parsePolynomial(const char str[], double *a, double *b, double *c, int sign);
+
 
 void skipToNumber(const char s[], int* shift); 
 bool isDigitPart(char c);

@@ -1,21 +1,27 @@
-const bool showFine = true;
+#pragma once
+
+const bool show_fine = true;
 
 void utestParseEquation(void);
 void utestParsePolynomial(void);
 void utestSolveSq(void);
 
-struct peqStruct {
-	const char *str;
-
+struct Coeffs {
 	double a, b, c;
 };
 
-struct TestCase {
-	const char* equation;
-	double expected_a;
-	double expected_b;
-	double expected_c;
-	int expected_roots;
-	double expected_root1;
-	double expected_root2;
+struct Solution {
+	int nRoots;
+	double x1, x2;
+};
+
+struct UTestParse {
+	const char *str;
+	struct Coeffs exp;
+};
+
+struct UTestSolve {
+	const char* str;
+	struct Coeffs coeffs;
+	struct Solution exp;
 };

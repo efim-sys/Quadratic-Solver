@@ -1,7 +1,7 @@
-#ifndef COMPLEX_DEF
-#define COMPLEX_DEF
+#pragma once
+
 typedef struct  {
-    double r, i;
+    double real, imaginary;
 } Complex;
 
 void printComplex(Complex);
@@ -10,4 +10,3 @@ Complex mulComplex(Complex a, double b);
 Complex divComplex(Complex a, double b);
 Complex sqrtComplex(double);
 Complex addReal(Complex a, double b);
-#endif

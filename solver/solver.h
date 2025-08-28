@@ -1,11 +1,14 @@
-#include "../complex/complex.h"
+#pragma once
+
+#include "../complex/complex.h" // TODO: -I complex/. почитать про clangd, чтобы не было ошибок с подключением хедеров
+#include "../unit-test/unit-test.h"
 
 enum SolveResult {
     NO_ROOTS = 0,
     ONE_ROOT, 
     TWO_ROOTS,
     INF_ROOTS,
-    COMPL_ROOTS=9
+    COMPL_ROOTS = 9
 };
 
 //! @brief Solves an quadratic equation from given koefficients
@@ -16,4 +19,6 @@ enum SolveResult {
 //! @param double *x2 poi#include "complex/complex.h"nter to second root variable
 //! @returns enum SolveResult NO_ROOTS, ONE_ROOT, TWO_ROOTS, INF_ROOTS
 enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2);
+
+double calcDiscr(double a, double b, double c);
 enum SolveResult solveComplex(double a, double b, double c, Complex* r1, Complex* r2);

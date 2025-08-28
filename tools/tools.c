@@ -1,4 +1,3 @@
-
 #include <stdbool.h>
 #include <stdio.h>
 #include <math.h>
@@ -10,7 +9,7 @@ bool dEqual(double a, double b) {
 }
 
 void filecopy(FILE* from, FILE* to) {
-    int c;
+    int c = 0;
 
-    while((c=getc(from)) != EOF) putc(c, to);
+    while((c = getc(from)) != EOF) putc(c, to);
 }

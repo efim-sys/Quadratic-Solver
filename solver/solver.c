@@ -3,9 +3,10 @@
 #include "assert.h"
 #include "../tools/tools.h"
 #include "../complex/complex.h"
+#include "../unit-test/unit-test.h"
 #include <math.h>
 
-enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
+enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) { // struct 
     assert(x1 != NULL);
     assert(x2 != NULL);
     
@@ -13,12 +14,12 @@ enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
         if(dEqual(b, 0)) {                                  // Если уравнение задает прямую
             return dEqual(c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
         }
+
         *x1 = -c / b;                                       // Решение линейного уравнения
         return ONE_ROOT;
     }
 
-    double D = b*b - 4*a*c; // тогда уже везде пробелы
-    // printf("[solveSq]\t\tD = %lg\n", D);
+    double D = calcDiscr(a, b, c);
 
     enum SolveResult nRoots = NO_ROOTS;
     
@@ -34,8 +35,8 @@ enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) {
 
     double sqD = sqrt(D);
 
-    *x1 = (-b + sqD) / (2*a);
-    *x2 = (-b - sqD) / (2*a);
+    *x1 = (-b + sqD) / (2 * a);
+    *x2 = (-b - sqD) / (2 * a);
 
 	if(*x1 < *x2) {
 		double tmp = *x1;
@@ -52,20 +53,24 @@ enum SolveResult solveComplex(double a, double b, double c, Complex* r1, Complex
         if(dEqual(b, 0)) {                                  // Если уравнение задает прямую
             return dEqual(c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
         }
-        r1->r = -c / b;                                     // Решение линейного уравнения
+        r1->real = -c / b;                                     // Решение линейного уравнения
         return ONE_ROOT;
     }
 
-    double D = b*b - 4*a*c;
+    double D = calcDiscr(a, b, c);
     Complex sqD = sqrtComplex(D);
 
-    *r1 = divComplex(addReal(sqD, -b), 2*a);
-    *r2 = divComplex(addReal(mulComplex(sqD, -1), -b), 2*a);
+    *r1 = divComplex(addReal(sqD, -b), 2 * a);
+    *r2 = divComplex(addReal(mulComplex(sqD, -1), -b), 2 * a);
     
     if(dEqual(D, 0)) return ONE_ROOT;
     if(D > 0) return TWO_ROOTS;
 
     return COMPL_ROOTS;
     
+}
+
+double calcDiscr(double a, double b, double c) {
+    return b * b - 4 * a * c;
 }
 

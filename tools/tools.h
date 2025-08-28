@@ -1,3 +1,5 @@
+#pragma once
+
 #include <stdio.h>
 
 //! @brief Compares 2 double variables and returns true if approximately equal
