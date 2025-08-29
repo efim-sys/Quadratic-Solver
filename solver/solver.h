@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../complex/complex.h" // TODO: -I complex/. почитать про clangd, чтобы не было ошибок с подключением хедеров
+#include "../complex/complex.h" // TODO: -I complex/.
 
 enum SolveResult {
     NO_ROOTS = 0,

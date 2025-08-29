@@ -83,7 +83,7 @@ void parsePolynomial(const char str[], struct Coeffs* coeffs, int sign) {
 
 void parseEquation(const char str[], struct Coeffs* coeffs) {
 	size_t str_len 	= strlen(str);
-	size_t eq_index 	= (size_t) strchr(str, '=');
+	size_t eq_index = (size_t) strchr(str, '=');
 
 	char* left_side = NULL;
 	char* right_side = NULL;
@@ -106,10 +106,10 @@ void parseEquation(const char str[], struct Coeffs* coeffs) {
 	free(left_side);
 
 	if(has_right) {
-		right_side	= (char*) calloc(str_len - eq_index, sizeof(char));
+		right_side = (char*) calloc(str_len - eq_index, sizeof(char));
 		memcpy(right_side, str + eq_index + 1, str_len - eq_index - 1);
 
-		right_side[str_len - eq_index-1] 	= '\0';
+		right_side[str_len - eq_index-1] = '\0';
 		parsePolynomial(right_side, coeffs, -1);
 		free(right_side);
 	}

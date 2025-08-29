@@ -14,8 +14,10 @@
 #include "tools/tools.h"
 #include "termColors.h"
 
-const int ARR_LEN = 128;
-const int nFlags = 4;
+const int arr_len = 128;
+const int n_flags = 4;
+
+const char* const file_name = "helpfile.txt";
 
 void outputResult(struct Solution);
 void outputResultComplex(enum SolveResult nRoots, Complex r1, Complex r2);
@@ -36,7 +38,7 @@ int main(int argc, const char* argv[]) {
     }
 
     if(getFlag(HELP_MODE)) {
-        FILE *fp = fopen("helpfile.txt", "r"); // const char* const file_name = 
+        FILE *fp = fopen(file_name, "r"); 
 
         assert(fp != NULL);
 
@@ -52,7 +54,7 @@ int main(int argc, const char* argv[]) {
         utestSolveSq();
     }
 
-    struct Coeffs coeffs;
+    struct Coeffs coeffs = {};
 
     if(getFlag(COMPL_MODE)) printf("Работатет в режиме комплексных чисел\n");
     if(!getFlag(COEF_MODE)) {
@@ -60,8 +62,8 @@ int main(int argc, const char* argv[]) {
         printf("Введите квадратное или линейное уравнение:\n");
         setTermFG(DEFAULT);
     
-        char str[ARR_LEN] = {};
-        fgets(str, ARR_LEN, stdin);
+        char str[arr_len] = {};
+        fgets(str, arr_len, stdin);
 
         
         parseEquation(str, &coeffs);
@@ -82,7 +84,8 @@ int main(int argc, const char* argv[]) {
         outputResult(solution);
     }
     else {
-        Complex r1, r2;
+        Complex r1 = {};
+        Complex r2 = {};
 
         enum SolveResult nRoots = solveComplex(coeffs, &r1, &r2);
         outputResultComplex(nRoots, r1, r2);
@@ -92,8 +95,7 @@ int main(int argc, const char* argv[]) {
 }
 
 unsigned int flags = 0;
-
-const char* const flags_str[nFlags] = {
+const char* const flags_str[n_flags] = {
     "--help",
     "--test",
     "--coef",
@@ -101,7 +103,7 @@ const char* const flags_str[nFlags] = {
 };
 
 void setFlag(const char* str) {
-    for(int i = 0; i < nFlags; i++) {
+    for(int i = 0; i < n_flags; i++) {
         if(!strcmp(str, flags_str[i])) flags |= (1u << i);
     }
 }
