@@ -5,7 +5,10 @@ source_files = quad.c unit-test/unit-test.c tools/tools.c solver/solver.c parser
 # compile:
 # 	g++ $(CFLAGS) unit-test/unit-test.c parser/parser.c solver/solver.c tools/tools.c quad.c -o build/a.out
 
-all: link	
+all: create_build link	
+
+create_build:
+	mkdir -p build
 
 link: unit-test.o parser.o solver.o tools.o quad.o complex.o
 	$(CC) $(CFLAGS) build/quad.o build/unit-test.o build/parser.o build/solver.o build/tools.o build/complex.o -o build/a.out
@@ -28,6 +31,11 @@ tools.o:
 complex.o: 
 	$(CC) $(CFLAGS) complex/complex.c -c -o build/complex.o
 
-run:
-	echo "\033[102m-------------------------LAUNCHING-------------------------\033[49m"
+run_test:
 	build/a.out --test
+
+run:
+	build/a.out
+
+clean:
+	rm -rf build

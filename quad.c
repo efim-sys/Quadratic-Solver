@@ -19,8 +19,8 @@ const int n_flags = 4;
 
 const char* const file_name = "helpfile.txt";
 
-void outputResult(struct Solution);
-void outputResultComplex(enum SolveResult nRoots, Complex r1, Complex r2);
+void outputResult(struct Solution*);
+void outputResultComplex(enum SolveResult nRoots, Complex* r1, Complex* r2);
 
 enum FLAGS {
     HELP_MODE = 0,
@@ -81,14 +81,14 @@ int main(int argc, const char* argv[]) {
         struct Solution solution;
 
         solveSq(coeffs, &solution);
-        outputResult(solution);
+        outputResult(&solution);
     }
     else {
         Complex r1 = {};
         Complex r2 = {};
 
         enum SolveResult nRoots = solveComplex(coeffs, &r1, &r2);
-        outputResultComplex(nRoots, r1, r2);
+        outputResultComplex(nRoots, &r1, &r2);
     }
     
     return 0;
@@ -112,9 +112,9 @@ bool getFlag(enum FLAGS f) {
     return flags & (1 << f);
 }
 
-void outputResult(struct Solution solution) {
+void outputResult(struct Solution* solution) {
 	setTermFG(ORANGE);
-    switch(solution.nRoots) {
+    switch(solution->nRoots) {
         case NO_ROOTS:
             printf("Уравнение не имеет корней\n");
             setTermFG(DEFAULT);
@@ -122,12 +122,12 @@ void outputResult(struct Solution solution) {
         case ONE_ROOT:
             printf("Уравнение имеет 1 корень: ");
             setTermFG(DEFAULT);
-            printf("%+lg\n", solution.x1);
+            printf("%+lg\n", solution->x1);
             break;
         case TWO_ROOTS:
             printf("Уравнение имеет 2 корня:");
             setTermFG(DEFAULT);
-            printf("%+lg %+lg\n", solution.x1, solution.x2);
+            printf("%+lg %+lg\n", solution->x1, solution->x2);
             break;
         case INF_ROOTS:
             printf("Уравнение имеет ∞ корней\n"); 
@@ -135,23 +135,23 @@ void outputResult(struct Solution solution) {
             break;
         case COMPL_ROOTS:
         default:
-            printf("Error nRoots=%d x1=%+lg x2=%+lg\n", solution.nRoots, solution.x1, solution.x2);
+            printf("Error nRoots=%d x1=%+lg x2=%+lg\n", solution->nRoots, solution->x1, solution->x2);
             setTermFG(DEFAULT);
             break;
     }
 }
 
-void outputResultComplex(enum SolveResult nRoots, Complex r1, Complex r2) {
+void outputResultComplex(enum SolveResult nRoots, Complex* r1, Complex* r2) {
     printf("\033[93m"); // Orange
     switch(nRoots) {
         case NO_ROOTS:
             printf("Уравнение не имеет корней\033[39m\n");
             break;
         case ONE_ROOT:
-            printf("Уравнение имеет 1 корень:\033[39m %+lg\n", r1.real);
+            printf("Уравнение имеет 1 корень:\033[39m %+lg\n", r1->real);
             break;
         case TWO_ROOTS:
-            printf("Уравнение имеет 2 корня:\033[39m %+lg %+lg\n", r1.real, r2.real);
+            printf("Уравнение имеет 2 корня:\033[39m %+lg %+lg\n", r1->real, r2->real);
             break;
         case INF_ROOTS:
             printf("Уравнение имеет ∞ корней\033[39m\n"); 

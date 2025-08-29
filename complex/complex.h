@@ -4,9 +4,9 @@ typedef struct  {
     double real, imaginary;
 } Complex;
 
-void printComplex(Complex);
-Complex addComplex(Complex a, Complex b);
-Complex mulComplex(Complex a, double b);
-Complex divComplex(Complex a, double b);
-Complex sqrtComplex(double);
-Complex addReal(Complex a, double b);
+void printComplex(const Complex*);
+Complex addComplex(const Complex a, const Complex b);
+Complex mulComplex(const Complex a, const double b);
+Complex divComplex(const Complex a, const double b);
+Complex sqrtComplex(const double);
+Complex addReal(const Complex a, const double b);

@@ -3,7 +3,7 @@
 #include <math.h>
 #include <stdio.h>
 
-Complex sqrtComplex(double n)
+Complex sqrtComplex(const double n)
 {   
     Complex ret = {0, 0};
     if (n >= 0) ret.real = sqrt(n);
@@ -12,9 +12,9 @@ Complex sqrtComplex(double n)
     return ret;
 }
 
-void printComplex(const Complex c) {
-    if (dEqual(c.imaginary, 0)) printf("%lg\n", c.real);
-    else printf("{%+lg%+lg*i}\n", c.real, c.imaginary);
+void printComplex(const Complex* c) {
+    if (dEqual(c->imaginary, 0)) printf("%lg\n", c->real);
+    else printf("{%+lg%+lg*i}\n", c->real, c->imaginary);
 }
 
 Complex addComplex(const Complex a, const Complex b) {
@@ -32,7 +32,7 @@ Complex addReal(const Complex a, const double b) {
     return ret;
 }
 
-Complex divComplex(Complex a, double b) {
+Complex divComplex(const Complex a, const double b) {
     Complex ret = {a.real / b, a.imaginary / b};
     return ret;
 }
