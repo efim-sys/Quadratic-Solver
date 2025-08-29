@@ -49,12 +49,11 @@ void parsePolynomial(const char str[], double* a, double* b, double* c, int sign
 	double tmp = 0;										// Temporary storage for readed coefficient
 
 	for(int shift = 0; s[shift] != '\0';) {
-		tmp = atof(s + shift);							// Read value
+		tmp = strtod(s + shift, NULL);							// Read value
 		skipFromNumber(s, &shift);						// Move current symbol from the first number
 
 		if (shift > 1 && s[shift - 2] == 'p' && s[shift - 1] == '2') {	// If coefficient for x^2 (x2) was found
 			if(dEqual(tmp, 0) && (shift == 2 || s[shift - 3] != '0')) {		// If coefficient is not specified as number (e.g. -x^2 or x^2)
-				// printf("ttt=%lg\n", atof("0P2+"));
 				
 				if(shift > 2 && s[shift - 3] == '-') tmp = -1;
 				else								 tmp = 1;
