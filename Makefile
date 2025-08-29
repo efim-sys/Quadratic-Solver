@@ -30,4 +30,4 @@ complex.o:
 
 run:
 	echo "\033[102m-------------------------LAUNCHING-------------------------\033[49m"
-	build/a.out
+	build/a.out --test

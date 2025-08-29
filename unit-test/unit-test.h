@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../solver/solver.h"
+
 const bool show_fine = true;
 
 void utestParseEquation(void);
@@ -8,11 +10,6 @@ void utestSolveSq(void);
 
 struct Coeffs {
 	double a, b, c;
-};
-
-struct Solution {
-	int nRoots;
-	double x1, x2;
 };
 
 struct UTestParse {

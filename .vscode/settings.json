@@ -14,6 +14,7 @@
         "posix_opt.h": "c",
         "unistd_ext.h": "c",
         "assert.h": "c",
-        "random": "c"
+        "random": "c",
+        "complex.h": "c"
     }
 }

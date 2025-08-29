@@ -3,6 +3,7 @@
 #include "../tools/tools.h"
 #include "../solver/solver.h"
 #include "../parser/parser.h"
+#include "../unit-test/unit-test.h"
 // #include "../termColors.h"
 
 #include "test-arrays.h"
@@ -15,12 +16,13 @@ void utestParseEquation(void) {
 	for(unsigned int i = 0; i < num_tests; i++) {
 		struct UTestParse test = arr_utest_equation[i];
 
-		double a = 0, b = 0, c = 0;
-		parseEquation(test.str, &a, &b, &c);
+		struct Coeffs coeffs = {};
+		
+		parseEquation(test.str, &coeffs);
 
-		if(!(dEqual(a, test.exp.a) && dEqual(b, test.exp.b) && dEqual(c, test.exp.c))) {
+		if(!coeffsComp(&coeffs, &test.exp)) {
 			printf("\033[91mERROR\033[39m");
-			printf("\t[%s] Expected: [A=%lg B=%lg C=%lg] Got: [A=%lg B=%lg C=%lg]\n", test.str, test.exp.a, test.exp.b, test.exp.c, a, b, c);
+			printf("\t[%s] Expected: [A=%lg B=%lg C=%lg] Got: [A=%lg B=%lg C=%lg]\n", test.str, test.exp.a, test.exp.b, test.exp.c, coeffs.a, coeffs.b, coeffs.c);
 		}
 		else {
 			if(show_fine) {
@@ -40,18 +42,18 @@ void utestSolveSq(void) {
 	for(unsigned int i = 0; i < num_tests; i++) {
 		struct UTestSolve test = arr_utest_solve[i];
 
-		double a = 0, b = 0, c = 0;
-		parseEquation(test.str, &a, &b, &c);
+		struct Coeffs coeffs = {};
+		parseEquation(test.str, &coeffs);
 
-		double x1 = 0, x2 = 0;
-		enum SolveResult nRoots = solveSq(a, b, c, &x1, &x2);
+		struct Solution solution = {};
+		solveSq(coeffs, &solution);
 		
-		if(!(nRoots == test.exp.nRoots && dEqual(x1, test.exp.x1) && dEqual(x2, test.exp.x2))) {
+		if(!solutionComp(&solution, &test.exp)) {
 			printf("\033[91mERROR\033[39m\t[%s] Expected: [n=%d x1=%+lg x2=%+lg] Got: [n=%d x1=%+lg x2=%+lg]\n", test.str, test.exp.nRoots, test.exp.x1, test.exp.x2, 
-				nRoots, x1, x2);
+				solution.nRoots, solution.x1, solution.x2);
 		}
 		else {
-			if(show_fine) printf("\033[92mFINE\033[39m\t[%s] Got: [n=%d x1=%+lg x2=%+lg]\n", test.str, nRoots, x1, x2);
+			if(show_fine) printf("\033[92mFINE\033[39m\t[%s] Got: [n=%d x1=%+lg x2=%+lg]\n", test.str, solution.nRoots, solution.x1, solution.x2);
 		}
 	}
 }
@@ -64,11 +66,11 @@ void utestParsePolynomial(void) {
 	for(unsigned int i = 0; i < num_tests; i++) {
 		struct UTestParse test = arr_utest_poly[i];
 
-		double a = 0, b = 0, c = 0;
-		parsePolynomial(test.str, &a, &b, &c, 1);
+		struct Coeffs coeffs = {};
+		parsePolynomial(test.str, &coeffs, 1);
 
-		if(!(dEqual(a, test.exp.a) && dEqual(b, test.exp.b) && dEqual(c, test.exp.c))) {
-			printf("\033[91mERROR\033[39m\t[%s] Expected: [A=%lg B=%lg C=%lg] Got: [A=%lg B=%lg C=%lg]\n", test.str, test.exp.a, test.exp.b, test.exp.c, a, b, c);
+		if(!coeffsComp(&coeffs, &test.exp)) {
+			printf("\033[91mERROR\033[39m\t[%s] Expected: [A=%lg B=%lg C=%lg] Got: [A=%lg B=%lg C=%lg]\n", test.str, test.exp.a, test.exp.b, test.exp.c, coeffs.a, coeffs.b, coeffs.c);
 		}
 		else {
 			if(show_fine) printf("\033[92mFINE\033[39m\t[%s] Got: [A=%lg B=%lg C=%lg]\n", test.str, test.exp.a, test.exp.b, test.exp.c);

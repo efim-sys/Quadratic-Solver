@@ -15,7 +15,7 @@ void removeChar(char str[], char c);
 //! @param double *a
 //! @param double *b
 //! @param double *c
-void parseEquation(const char str[], double *a, double *b, double *c);
+void parseEquation(const char str[], struct Coeffs*);
 
 //! @brief Parses quadratic (or lower power) polynomial coefficeents from the string
 //! @param char str[] - input string
@@ -23,7 +23,7 @@ void parseEquation(const char str[], double *a, double *b, double *c);
 //! @param double *b
 //! @param double *c
 //! @param int sign +1 or -1
-void parsePolynomial(const char str[], double *a, double *b, double *c, int sign);
+void parsePolynomial(const char str[], struct Coeffs*, int sign);
 
 
 void skipToNumber(const char s[], int* shift); 

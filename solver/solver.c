@@ -1,4 +1,3 @@
-#include "solver.h"
 #include "stdlib.h"
 #include "assert.h"
 #include "../tools/tools.h"
@@ -6,62 +5,66 @@
 #include "../unit-test/unit-test.h"
 #include <math.h>
 
-enum SolveResult solveSq(double a, double b, double c, double *x1, double *x2) { // struct 
-    assert(x1 != NULL);
-    assert(x2 != NULL);
+#include "solver.h"
+
+enum SolveResult solveSq(struct Coeffs coeffs, struct Solution* solution) { // struct 
+    assert(solution != NULL);
     
-    if(dEqual(a, 0)) {                                      // Если уравнение не является квадратным
-        if(dEqual(b, 0)) {                                  // Если уравнение задает прямую
-            return dEqual(c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
+    if(dEqual(coeffs.a, 0)) {                                      // Если уравнение не является квадратным
+        if(dEqual(coeffs.b, 0)) {                                  // Если уравнение задает прямую
+            solution->nRoots = dEqual(coeffs.c, 0) ? INF_ROOTS : NO_ROOTS;
+            return solution->nRoots;                               // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
         }
 
-        *x1 = -c / b;                                       // Решение линейного уравнения
-        return ONE_ROOT;
+        solution->x1 = -coeffs.c / coeffs.b;                                       // Решение линейного уравнения
+        solution->nRoots = ONE_ROOT;
+        return solution->nRoots;
     }
 
-    double D = calcDiscr(a, b, c);
+    double D = calcDiscr(coeffs);
 
-    enum SolveResult nRoots = NO_ROOTS;
+    solution->nRoots = NO_ROOTS;
     
     if(D > 0) {
-        nRoots = TWO_ROOTS;
+        solution->nRoots = TWO_ROOTS;
     }
     else if(dEqual(D, 0)) {
-        nRoots = ONE_ROOT;
+        solution->nRoots = ONE_ROOT;
     }
     else {
-        return NO_ROOTS; // Уравнение не имеет действительных корней
+        solution->nRoots = NO_ROOTS;
+        return solution->nRoots;            // Уравнение не имеет действительных корней
     }
 
     double sqD = sqrt(D);
 
-    *x1 = (-b + sqD) / (2 * a);
-    *x2 = (-b - sqD) / (2 * a);
+    solution->x1 = (-coeffs.b + sqD) / (2 * coeffs.a);
+    solution->x2 = (-coeffs.b - sqD) / (2 * coeffs.a);
 
-	if(*x1 < *x2) {
-		double tmp = *x1;
-		*x1 = *x2;
-		*x2 = tmp;
+	if(solution->x1 < solution->x2) {
+		double tmp = solution->x1;
+		solution->x1 = solution->x2;
+		solution->x2 = tmp;
 	}
 
-    return nRoots;
+    return solution->nRoots;
 }
 
 
-enum SolveResult solveComplex(double a, double b, double c, Complex* r1, Complex* r2) {
-    if(dEqual(a, 0)) {                                      // Если уравнение не является квадратным
-        if(dEqual(b, 0)) {                                  // Если уравнение задает прямую
-            return dEqual(c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
+enum SolveResult solveComplex(struct Coeffs coeffs, Complex* r1, Complex* r2) {
+    if(dEqual(coeffs.a, 0)) {                                      // Если уравнение не является квадратным
+        if(dEqual(coeffs.b, 0)) {                                  // Если уравнение задает прямую
+            return dEqual(coeffs.c, 0) ? INF_ROOTS : NO_ROOTS;     // Если прямая совпадает с Ox, то INF_ROOTS, иначе NO_ROOTS
         }
-        r1->real = -c / b;                                     // Решение линейного уравнения
+        r1->real = -coeffs.c / coeffs.b;                                     // Решение линейного уравнения
         return ONE_ROOT;
     }
 
-    double D = calcDiscr(a, b, c);
+    double D = calcDiscr(coeffs);
     Complex sqD = sqrtComplex(D);
 
-    *r1 = divComplex(addReal(sqD, -b), 2 * a);
-    *r2 = divComplex(addReal(mulComplex(sqD, -1), -b), 2 * a);
+    *r1 = divComplex(addReal(sqD, -coeffs.b), 2 * coeffs.a);
+    *r2 = divComplex(addReal(mulComplex(sqD, -1), -coeffs.b), 2 * coeffs.a);
     
     if(dEqual(D, 0)) return ONE_ROOT;
     if(D > 0) return TWO_ROOTS;
@@ -70,7 +73,7 @@ enum SolveResult solveComplex(double a, double b, double c, Complex* r1, Complex
     
 }
 
-double calcDiscr(double a, double b, double c) {
-    return b * b - 4 * a * c;
+double calcDiscr(struct Coeffs coeffs) {
+    return coeffs.b * coeffs.b - 4 * coeffs.a * coeffs.c;
 }
 

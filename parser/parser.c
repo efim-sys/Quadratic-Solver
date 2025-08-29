@@ -3,6 +3,7 @@
 #include <ctype.h>
 
 #include "../tools/tools.h"
+#include "../unit-test/unit-test.h"
 
 void removeChar(char str[], char c) {
 	int to = 0;
@@ -36,7 +37,7 @@ void replaceChar(char str[], const char from, const char to) {
 	}
 }
 
-void parsePolynomial(const char str[], double* a, double* b, double* c, int sign) {
+void parsePolynomial(const char str[], struct Coeffs* coeffs, int sign) {
 	char *s = (char*) malloc(strlen(str) + 1); // TODO: strdup			// Allocate memory for string copy
 	
 	strcpy(s, str);
@@ -59,7 +60,7 @@ void parsePolynomial(const char str[], double* a, double* b, double* c, int sign
 				else								 tmp = 1;
 			}
 
-			*a += tmp * sign;
+			coeffs->a += tmp * sign;
 		}
 
 
@@ -69,10 +70,10 @@ void parsePolynomial(const char str[], double* a, double* b, double* c, int sign
 				else								 tmp = 1;
 			}
 
-			*b += tmp * sign;
+			coeffs->b += tmp * sign;
 		}
 
-		else *c += tmp * sign;
+		else coeffs->c += tmp * sign;
 
 		skipToNumber(s, &shift);
 	}
@@ -80,7 +81,7 @@ void parsePolynomial(const char str[], double* a, double* b, double* c, int sign
 	free(s);
 }
 
-void parseEquation(const char str[], double *a, double *b, double *c) {
+void parseEquation(const char str[], struct Coeffs* coeffs) {
 	size_t str_len 	= strlen(str);
 	size_t eq_index 	= (size_t) strchr(str, '=');
 
@@ -99,15 +100,17 @@ void parseEquation(const char str[], double *a, double *b, double *c) {
 
 	left_side	= (char*) calloc(eq_index+1, sizeof(char));
 	memcpy(left_side, str, eq_index);
+
 	left_side[eq_index] 	= '\0';
-	parsePolynomial(left_side, a, b, c, 1);
+	parsePolynomial(left_side, coeffs, 1);
 	free(left_side);
 
 	if(has_right) {
 		right_side	= (char*) calloc(str_len - eq_index, sizeof(char));
 		memcpy(right_side, str + eq_index + 1, str_len - eq_index - 1);
+
 		right_side[str_len - eq_index-1] 	= '\0';
-		parsePolynomial(right_side, a, b, c, -1);
+		parsePolynomial(right_side, coeffs, -1);
 		free(right_side);
 	}
 }
